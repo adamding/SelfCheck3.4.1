@@ -1,0 +1,135 @@
+---
+title       : Self-Check Questions (ungraded)
+subtitle    : pdf and cdf for known distributions in R.
+author      : Aidong Adam Ding
+job         :  Made using Slidify in R. (Click mouse then right arrow key for next slide.)
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : solarized_dark      # 
+widgets     : [mathjax, quiz, bootstrap]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+
+--- &radio
+
+## Question 1: 
+Following R expressions all except one equals $P(0 \leqslant X \leqslant 10)$ for X~$N(\mu =4,\sigma =2)$.
+
+Which one does NOT equal to $P(0 \leqslant X \leqslant 10)$?
+
+
+1. pnorm(10,mean=4,sd=2) - pnorm(0,mean=4,sd=2)
+2. integrate(function(x) dnorm(x,mean=4,sd=2), lower=0, upper=10)
+3. integrate(function(x) dnorm(x,mean=0,sd=1), lower= -2, upper=3)
+4. pnorm(3,mean=0,sd=1) - pnorm(0,mean=4,sd=2)
+5. _dnorm(3,mean=0,sd=1) - dnorm(-2,mean=0,sd=1)_
+
+
+*** .hint
+dnorm is pdf, pnorm is cdf. $Z=\frac{X-4}{2}$~$N(\mu =0,\sigma =1)$. 
+
+*** .explanation
+$Z=\frac{X-4}{2}$~$N(\mu =0,\sigma =1)$. 
+
+So $X \geq 0$ is equivalent to $Z \geq -2$; and $X \leq 10$ is equivalent to $Z \leq 3$. The first four expressions are all the same.
+
+The last expression used the dnorm (pdf) where it should be pnorm (cdf), thus NOT equal to $P(0 \leqslant X \leqslant 10)$.
+
+--- &multitext
+
+## Question 2
+$X_1, X_2, ..., X_{10}$  are random samples from the distribution  $N(\mu=4, \sigma=2)$. 
+
+Let Y be the number of $X_i$'s with value between 0 and 10. 
+
+1. What is Var(Y)?
+
+````
+
+*** .hint
+Y is the number of successes in repeated trials. 
+
+*** .explanation
+1. <span class="answer">2.3519</span>
+
+Since $P(0 \leq X_i \leq 10)=0.9759$ from R, Y follows the binomial distribution with n=100 and p=0.9759.
+
+Hence Var(Y)=np(1-p)= 2.351919
+
+Use R command to find: 
+
+\> pnorm(10,mean=4,sd=2) - pnorm(0,mean=4,sd=2)
+
+[1] 0.9759
+
+
+--- &radio
+
+## Question 3
+X follows the Poisson($\lambda=4$)  distribution, which of the following equals P(5< X < 10)?
+
+1. $\int_5^{10} \frac{4^x}{x!}e^{-4}dx$ 
+
+2. integrate(function(x) dpois(x,4), lower=5, upper=10)
+
+3. ppois(10,4)-ppois(5,4)
+
+4. _ppois(9,4)-ppois(5,4)_
+
+5. sum(dpois(5:9,4))
+
+*** .hint
+Is Poisson discrete or continuous?
+
+What values are in the set 5< X < 10? 
+
+*** .explanation
+Poisson distribution is discrete. So we need sum, NOT integral. The first two are wrong.
+
+The cases in the set 5< X < 10 are: X=6,7,8,9. 
+
+ppois(9,4)-ppois(5,4) is correct as it counts the cases X=6,7,8,9.
+
+ppois(10,4)-ppois(5,4) is wrong as it counts the probability of X=6,7,8,9,10.
+
+sum(dpois(5:9,4)) is wrong as it counts the probability of X=5,6,7,8,9.  
+
+--- &radio
+
+## Question 4
+X follows the Chi-square distribution with m=4 degrees of freedom. 
+
+We denote a new random variable Y=3X-1 from the linear transformation of X. 
+
+Which of the following answer equals to Var(Y)?
+
+
+1. (a) 3(4)-1=11 
+2. (b) 2(4)=8
+3. (c) 3(8)-1=23 
+4. (d) integrate(function(x) (x-4)\^2*dchisq(x,4), lower=0, upper=Inf)
+5. _(e) 9(8)=72_ 
+6. (f) integrate(function(x) (x-11)\^2*dchisq(x,11), lower=0, upper=Inf)
+
+
+*** .hint
+What is the variance of Chi-square distribution?
+
+Apply the property of linear combinations. 
+
+*** .explanation
+(a) is E(Y), wrong.
+
+(b) is Var(X), wrong.
+
+(c) applied wrong formula (for mean) to the variance.
+
+(d) is Var(X), wrong.
+
+(e) is 9*Var(X)=Var(Y), correct.
+
+(f) is wrong since Y does not follow a Chi-square distribution. 
+
+
+
+
